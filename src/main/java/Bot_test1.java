@@ -12,7 +12,7 @@ public class Bot_test1 {
 
         //config = Dotenv.configure().load();
         //String token = config.get("TOKEN");
-        String token = "MTAzOTYzNDE5NzE2MzI4NjY0MA.GEW_pT.HNMiVrDZ1lAKF8_FXeQQuPTb4DHNzA8znM0YIQ";
+        String token = "";
         JDABuilder jdaBuilder = JDABuilder.createDefault(token);
         jdaBuilder.build();
     }
