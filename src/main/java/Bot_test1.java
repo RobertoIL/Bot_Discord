@@ -7,23 +7,15 @@ import net.dv8tion.jda.api.sharding.ShardManager;
 import javax.security.auth.login.LoginException;
 
 public class Bot_test1 {
-    private final Dotenv config;
+    public static void main(String[] args) {
+        //final Dotenv config;
 
-
-    public Bot_test1(Dotenv config) throws LoginException{
-        this.config = config;
-
-        config = Dotenv.configure().load();
-        String token = config.get("TOKEN");
-
+        //config = Dotenv.configure().load();
+        //String token = config.get("TOKEN");
+        String token = "MTAzOTYzNDE5NzE2MzI4NjY0MA.GEW_pT.HNMiVrDZ1lAKF8_FXeQQuPTb4DHNzA8znM0YIQ";
         JDABuilder jdaBuilder = JDABuilder.createDefault(token);
         jdaBuilder.build();
-
-
-
-
     }
-
 
 
 }
