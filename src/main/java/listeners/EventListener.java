@@ -19,11 +19,5 @@ public class EventListener extends ListenerAdapter {
         event.getGuild().getDefaultChannel().asTextChannel().sendMessage(mensaje).queue();
     }
 
-    @Override
-    public void onMessageReceived(@NotNull MessageReceivedEvent event) {
-        String mensaje = event.getMessage().getContentRaw();
-        if (mensaje.contains("hola")){
-            event.getChannel().sendMessage("chao").queue();
-        }
-    }
+
 }
