@@ -13,7 +13,7 @@ import javax.security.auth.login.LoginException;
 public class Bot_test1 {
     public static void main(String[] args) {
         ShardManager shardManager;
-        String token = "MTAzOTYzNDE5NzE2MzI4NjY0MA.GL2Par.O3khijX9QOGLg8q7gfia8SC_fHht5vrVTS5k9Q";
+        String token = "";
 
         DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createDefault(token);
         builder.setStatus(OnlineStatus.ONLINE);
