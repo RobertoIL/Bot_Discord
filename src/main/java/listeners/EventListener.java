@@ -20,4 +20,11 @@ public class EventListener extends ListenerAdapter {
     }
 
 
+    @Override
+    public void onMessageReceived(@NotNull MessageReceivedEvent event) {
+        String mensaje = event.getMessage().getContentRaw();
+        if(mensaje.contains("ping")){
+            event.getChannel().sendMessage("pong").queue();
+        }
+    }
 }
