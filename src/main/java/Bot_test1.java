@@ -1,14 +1,9 @@
-
-
-import io.github.cdimascio.dotenv.Dotenv;
 import listeners.EventListener;
-import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
-import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
 
-import javax.security.auth.login.LoginException;
+
 
 public class Bot_test1 {
     public static void main(String[] args) {
@@ -21,9 +16,6 @@ public class Bot_test1 {
         shardManager.addEventListener(new EventListener());
 
 
-
     }
-
-
 
 }
