@@ -1,19 +1,19 @@
-import listeners.EventListener;
-import net.dv8tion.jda.api.OnlineStatus;
-import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
-import net.dv8tion.jda.api.sharding.ShardManager;
-
+import listeners.EventoReaccion;
+import listeners.EventoSaludo;
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.entities.Activity;
 
 
 public class Bot_test1 {
     public static void main(String[] args) {
-        ShardManager shardManager;
-        final String token = "";
+        final String token = "MTAzOTYzNDE5NzE2MzI4NjY0MA.G4xxMf.c17XY23_KSZzZkcjlsCZCrczRm94n32yjywWro";
 
-        DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createDefault(token);
-        builder.setStatus(OnlineStatus.ONLINE);
-        shardManager = builder.build();
-        shardManager.addEventListener(new EventListener());
+        JDA jda = JDABuilder.createDefault(token)
+                .addEventListeners(new EventoReaccion())
+                .addEventListeners(new EventoSaludo())
+                .build();
+
 
 
 

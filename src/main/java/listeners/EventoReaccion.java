@@ -1,11 +1,10 @@
 package listeners;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
-public class EventListener extends ListenerAdapter {
+public class EventoReaccion extends ListenerAdapter {
 
     @Override
     public void onMessageReactionAdd(@NotNull MessageReactionAddEvent event) {
@@ -17,8 +16,5 @@ public class EventListener extends ListenerAdapter {
         String mensaje = user.getAsTag() + " reaccionó a un  mensaje con " + emoji + " en " +canalMencion;
         event.getGuild().getDefaultChannel().asTextChannel().sendMessage(mensaje).queue();
     }
-
-
-
 
 }
