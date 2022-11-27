@@ -23,9 +23,9 @@ public class Bot_test1 {
             guild.upsertCommand("ofertas", "Ver las ultimas ofertas destacadas").queue();
         }
 
-        }
-
-
     }
+
+
+}
 
 
