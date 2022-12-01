@@ -1,5 +1,7 @@
 package web_scraping;
 
+import java.util.concurrent.RecursiveTask;
+
 public class Juegos_gratis {
     private String nombre;
     private String sitio_web;
