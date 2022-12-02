@@ -7,25 +7,23 @@ import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
 import java.io.IOException;
 
+
 public class Conexion {
 
-    public Firestore conectar(){
+    public Firestore iniciarFirebase(){
 
-        FirebaseOptions options = null;
-        try {
-            options = new FirebaseOptions.Builder()
-                    .setCredentials(GoogleCredentials.fromStream(getClass().
-                            getResourceAsStream("celestine-25909-firebase-adminsdk-o6xkh-55c1ac1dbd.json")))
-                    .setDatabaseUrl("https://celestine-25909-default-rtdb.firebaseio.com")
+        Firestore bd = null;
+        try{
+            FirebaseOptions options = new FirebaseOptions.Builder()
+                    .setCredentials(GoogleCredentials.
+                            fromStream(getClass().
+                                    getResourceAsStream("Firebase/celestine-ae15b-firebase-adminsdk-ej4dv-0941c34ad6.json")))
                     .build();
-
             FirebaseApp.initializeApp(options);
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        }
+        catch(IOException e) {
+            e.printStackTrace();
         }
         return FirestoreClient.getFirestore();
-
     }
-
 }
