@@ -10,6 +10,7 @@ import java.io.IOException;
 
 public class Conexion {
 
+    private Firestore bd = null;
     public Firestore iniciarFirebase(){
 
         Firestore bd = null;
