@@ -13,6 +13,9 @@ public class Juegos_oferta {
         this.imagen = imagen;
     }
 
+    public Juegos_oferta() {
+    }
+
     public String getNombre() {
         return nombre;
     }

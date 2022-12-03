@@ -6,19 +6,17 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
 import java.io.IOException;
-
-
 public class Conexion {
 
-    private Firestore bd = null;
     public Firestore iniciarFirebase(){
 
-        Firestore bd = null;
+        //Firestore bd = null;
         try{
             FirebaseOptions options = new FirebaseOptions.Builder()
                     .setCredentials(GoogleCredentials.
                             fromStream(getClass().
                                     getResourceAsStream("Firebase/celestine-ae15b-firebase-adminsdk-ej4dv-0941c34ad6.json")))
+                    .setDatabaseUrl("https://celestine-ae15b.firebaseio.com/")
                     .build();
             FirebaseApp.initializeApp(options);
         }

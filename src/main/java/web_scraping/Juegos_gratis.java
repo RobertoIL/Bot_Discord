@@ -13,6 +13,9 @@ public class Juegos_gratis {
         this.imagen = imagen;
     }
 
+    public Juegos_gratis() {
+    }
+
     public String getNombre() {
         return nombre;
     }
