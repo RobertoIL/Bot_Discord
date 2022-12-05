@@ -27,4 +27,6 @@ public class Conexion {
         }
         return FirestoreClient.getFirestore();
     }
+
 }
+
