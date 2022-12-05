@@ -1,18 +1,21 @@
 package web_scraping;
 
+import Firebase.CRUDFirebase;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Collectors;
 public class Conseguir_los_juegos_en_oferta {
 
     List<Juegos_gratis> juegos_gratuitos = new ArrayList<>();
-
     List<Juegos_oferta> juegos_en_oferta = new ArrayList<>();
+    HashMap<String, Object> juegos_gratis = new HashMap<>();
+    HashMap<String, Object> juegos_ofertados = new HashMap<>();
 
 
     public void obtenerOfertasdeGog(){
@@ -31,17 +34,18 @@ public class Conseguir_los_juegos_en_oferta {
                     Document pagina;
                     pagina = Jsoup.connect("https://www.gog.com/en/games?discounted=true&page=" + i).cookie("gog_lc", "CL_USD_en-US").get();
                     Elements listaJuegos = pagina.select("div.paginated-products-grid.grid");
-                    for (Element juego : listaJuegos.select("product-tile.ng-star-inserted")) {
-                        String urlImagen = juego.select("div.product-tile__image-wrapper").select("source[type=image/webp]").attr("srcset").substring(0,
-                                juego.select("div.product-tile__image-wrapper").select("source[type=image/webp]").attr("srcset").lastIndexOf(","));
+                    for(Element juego : listaJuegos.select("product-tile.ng-star-inserted")){
+                        String url = juego.select("a[href]").attr("href");
                         String nombre = juego.select("div.product-tile__title").text();
                         String precioDescontado = juego.select("span.final-value").text();
-                        String cantidadDescuento = juego.select("price-discount.ng-star-inserted").text();
-                        String precioBase = juego.select("span.base-value.ng-star-inserted").text();
+                        String urlImagen = juego.select("store-picture.ng-star-inserted").select("source").first().attr("srcset").substring(0,
+                                juego.select("store-picture.ng-star-inserted").select("source").first().attr("srcset").indexOf(",")-1);
                         if (precioDescontado.equals("-100%")) {
-                            this.juegos_gratuitos.add(new Juegos_gratis(nombre, "https://www.gog.com/", urlImagen));
+                            //this.juegos_gratuitos.add(new Juegos_gratis(nombre, "https://www.gog.com/", urlImagen));
+                            juegos_gratis.put("nombre", new Juegos_gratis(nombre, url, urlImagen));
                         } else {
-                            this.juegos_en_oferta.add(new Juegos_oferta(nombre, precioDescontado, "https://www.gog.com/", urlImagen));
+                            //this.juegos_en_oferta.add(new Juegos_oferta(nombre, precioDescontado, "https://www.gog.com/", urlImagen));
+                            juegos_ofertados.put("nombre", new Juegos_oferta(nombre, precioDescontado, url, urlImagen));
                         }
                     }
                 } catch (Exception e) {
