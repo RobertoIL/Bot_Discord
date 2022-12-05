@@ -4,13 +4,16 @@ import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import io.netty.handler.codec.serialization.ObjectEncoder;
 import web_scraping.Juegos_gratis;
 import web_scraping.Juegos_oferta;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 public class CRUDFirebase {
@@ -21,49 +24,24 @@ public class CRUDFirebase {
         bd = conexion.iniciarFirebase();
     }
 
-    public static boolean agregarJuegosGratis(Juegos_gratis juegos_gratis){
+    public boolean addFirebase(Map<String, Object> docData, String nombre_documento, String collection){
         boolean key = false;
-        try {
-            ApiFuture<WriteResult> future = bd.collection("juegos").document("juegos_gratis").set(juegos_gratis);
-            System.out.println("Update time : " + future.get().getUpdateTime());
-            key = true;
-        } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
-        }
+            /*
+            docData = new HashMap<>();
+            docData.put("name", "Los Angeles");
+            docData.put("state", "CA");
+            docData.put("country", "USA");
+            docData.put("regions", Arrays.asList("west_coast", "socal"));
+                 */
+            try{
+                ApiFuture<WriteResult> future = bd.collection(collection).document(nombre_documento).set(docData);
+                System.out.println("Update time : " + future.get().getUpdateTime());
 
-        return key;
-    }
-    public static boolean agregarJuegosOferta(Juegos_oferta juegos_oferta){
-        boolean key = false;
-        try {
-            ApiFuture<WriteResult> future = bd.collection("juegos").document("juegos_ofertas").set(juegos_oferta);
-            System.out.println("Update time : " + future.get().getUpdateTime());
-            key = true;
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }
-
-        return key;
-    }
-    public static boolean obtenerJuegosGratis() {
-        boolean key = false;
-        Gson gson = new GsonBuilder().create();
-        FileWriter fileWriter;
-        try {
-            ApiFuture<QuerySnapshot> future = bd.collection("juegos_gratis").get();
-            List<QueryDocumentSnapshot> documents = future.get().getDocuments();
-            fileWriter = new FileWriter("datos/juegos_gratis.json");
-            for (QueryDocumentSnapshot document : documents) {
-                gson.toJson(new Juegos_gratis((String) document.getData().get("nombre"),
-                        (String) document.getData().get("sitio_web"),
-                        (String) document.getData().get("imagen")), fileWriter);
+                key = true;
+            }catch(InterruptedException | ExecutionException e){
+                e.printStackTrace();
             }
-            key = true;
-        }catch(InterruptedException | ExecutionException e){
-            e.printStackTrace();
-        } catch (IOException e) {
-            System.out.println("error al crear el archivo");
-        }
+
         return key;
     }
 
