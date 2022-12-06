@@ -29,7 +29,7 @@ public class Conseguir_los_juegos_en_oferta {
         if(paginaDeGog != null) {
             Elements cantidad = paginaDeGog.select("div.pagination");
             numeroPaginas = Integer.parseInt(cantidad.select("div.ng-star-inserted").last().text());
-            for (int i = 1; i < numeroPaginas; i++) {
+            for (int i = 1; i <= numeroPaginas; i++) {
                 paginaDeGog = intentarObtenerDocumento("https://www.gog.com/en/games?discounted=true&page=" + i);
                 if (paginaDeGog != null){
                     Elements listaJuegos = paginaDeGog.select("div.paginated-products-grid.grid");
