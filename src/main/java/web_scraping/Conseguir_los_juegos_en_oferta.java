@@ -1,14 +1,12 @@
 package web_scraping;
 
-import Firebase.CRUDFirebase;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Collectors;
 public class Conseguir_los_juegos_en_oferta {
 
@@ -101,64 +99,66 @@ public class Conseguir_los_juegos_en_oferta {
 
             for (int i = 1; i <= numeroMaximoDePaginas; i++) {
                 pagina = intentarObtenerDocumento("https://store.steampowered.com/search/?ignore_preferences=1&specials=1&page=" + i + "&ndl=1");
-                for (Element x : pagina.select("div[id=search_resultsRows]").select("a[data-ds-itemkey]")) {
-                    String descuento = "0";
-                    String precio= "0";
-                    String nombre = x.select("div.col.search_name.ellipsis").text();
-                    String enlaceDelJuego = x.attr("href");
-                    String urlImagen = x.select("div.col.search_capsule").select("img").attr("src");
-                    if(!x.select("div.col.search_price_discount_combined.responsive_secondrow").text().isBlank()) {
-                        if(x.select("div.col.search_price.discounted.responsive_secondrow").text().length() > 0) {
-                            precio = x.select("div.col.search_price.discounted.responsive_secondrow").text()
-                                    .substring(x.select("div.col.search_price.discounted.responsive_secondrow").text().lastIndexOf("C"));
-                            descuento = x.select("div.col.search_discount.responsive_secondrow").text();
-                        }else{
-                            precio = x.select("div.col.search_price_discount_combined.responsive_secondrow")
-                                    .select("div.col.search_price.responsive_secondrow").text();
-                            String temporal = precio.substring(precio.lastIndexOf(" ") + 1, precio.length());
+                if(pagina != null) {
+                    for (Element x : pagina.select("div[id=search_resultsRows]").select("a[data-ds-itemkey]")) {
+                        String descuento = "0";
+                        String precio = "0";
+                        String nombre = x.select("div.col.search_name.ellipsis").text();
+                        String enlaceDelJuego = x.attr("href");
+                        String urlImagen = x.select("div.col.search_capsule").select("img").attr("src");
+                        if (!x.select("div.col.search_price_discount_combined.responsive_secondrow").text().isBlank()) {
+                            if (x.select("div.col.search_price.discounted.responsive_secondrow").text().length() > 0) {
+                                precio = x.select("div.col.search_price.discounted.responsive_secondrow").text()
+                                        .substring(x.select("div.col.search_price.discounted.responsive_secondrow").text().lastIndexOf("C"));
+                                descuento = x.select("div.col.search_discount.responsive_secondrow").text();
+                            } else {
+                                precio = x.select("div.col.search_price_discount_combined.responsive_secondrow")
+                                        .select("div.col.search_price.responsive_secondrow").text();
+                                String temporal = precio.substring(precio.lastIndexOf(" ") + 1, precio.length());
 
-                            if(!temporal.contains(".") || temporal.length() < 2){
-                                descuento = "-100%";
-                            }else{
-                                descuento = "-10%";
+                                if (!temporal.contains(".") || temporal.length() < 2) {
+                                    descuento = "-100%";
+                                } else {
+                                    descuento = "-10%";
+                                }
+                            }
+                        } else if (!x.hasClass("div.search_result_row.ds_collapse_flag.ds_flagged.ds_excluded_by_preferences.app_impression_tracked")) {
+                            Document paginaEspecial = intentarObtenerDocumento(x.attr("href"));
+                            if (paginaEspecial != null) {
+                                if (paginaEspecial.select("div.game_area_purchase").select("div.game_area_purchase_game_wrapper.dynamic_bundle_description.ds_no_flags").first() != null) {
+                                    descuento = paginaEspecial.select("div.game_area_purchase").select("div.game_area_purchase_game_wrapper.dynamic_bundle_description.ds_no_flags")
+                                            .first().select("div.discount_block.game_purchase_discount").select("div.discount_pct").text();
+                                    precio = paginaEspecial.select("div.game_area_purchase").select("div.game_area_purchase_game_wrapper.dynamic_bundle_description.ds_no_flags")
+                                            .first().select("div.discount_block.game_purchase_discount").select("div.discount_prices").select("div.discount_final_price").text();
+                                } else {
+                                    descuento = paginaEspecial.select("div.game_area_purchase").select("div.game_area_purchase_game_wrapper").first().select("div.discount_pct").text();
+                                    precio = paginaEspecial.select("div.game_area_purchase").select("div.game_area_purchase_game_wrapper").first().select("div.discount_final_price").text();
+                                }
+                            } else {
+                                continue;
                             }
                         }
-                    }else if(!x.hasClass("div.search_result_row.ds_collapse_flag.ds_flagged.ds_excluded_by_preferences.app_impression_tracked")){
-                        Document paginaEspecial = intentarObtenerDocumento(x.attr("href"));
-                        if(paginaEspecial != null){
-                            if(paginaEspecial.select("div.game_area_purchase").select("div.game_area_purchase_game_wrapper.dynamic_bundle_description.ds_no_flags").first() != null){
-                                descuento = paginaEspecial.select("div.game_area_purchase").select("div.game_area_purchase_game_wrapper.dynamic_bundle_description.ds_no_flags")
-                                        .first().select("div.discount_block.game_purchase_discount").select("div.discount_pct").text();
-                                precio =paginaEspecial.select("div.game_area_purchase").select("div.game_area_purchase_game_wrapper.dynamic_bundle_description.ds_no_flags")
-                                        .first().select("div.discount_block.game_purchase_discount").select("div.discount_prices").select("div.discount_final_price").text();
-                            }else{
-                                descuento = paginaEspecial.select("div.game_area_purchase").select("div.game_area_purchase_game_wrapper").first().select("div.discount_pct").text();
-                                precio = paginaEspecial.select("div.game_area_purchase").select("div.game_area_purchase_game_wrapper").first().select("div.discount_final_price").text();
-                            }
-                        }else{
-                            continue;
-                        }
-                    }
 
-                    if(descuento.equals("-100%")){
-                        Juegos_gratis juego = new Juegos_gratis(nombre, enlaceDelJuego, urlImagen);
-                        if(!juegos_gratis.containsValue(juego)){
-                            juegos_gratis.put(nombre, juego);
-                        }else{
-                            juegos_gratis.remove(nombre, juego);
-                            juegos_gratis.put(nombre, juego);
-                        }
-                    }else{
-                        Juegos_oferta juego = new Juegos_oferta(nombre, precio, enlaceDelJuego, urlImagen);
-                        if(!juegos_ofertados.containsValue(juego)){
-                            juegos_ofertados.put(nombre, juego);
-                        }else{
-                            juegos_ofertados.remove(nombre, juego);
-                            juegos_ofertados.put(nombre, juego);
+                        if (descuento.equals("-100%")) {
+                            Juegos_gratis juego = new Juegos_gratis(nombre, enlaceDelJuego, urlImagen);
+                            if (!juegos_gratis.containsValue(juego)) {
+                                juegos_gratis.put(nombre, juego);
+                            } else {
+                                juegos_gratis.remove(nombre, juego);
+                                juegos_gratis.put(nombre, juego);
+                            }
+                        } else {
+                            Juegos_oferta juego = new Juegos_oferta(nombre, precio, enlaceDelJuego, urlImagen);
+                            if (!juegos_ofertados.containsValue(juego)) {
+                                juegos_ofertados.put(nombre, juego);
+                            } else {
+                                juegos_ofertados.remove(nombre, juego);
+                                juegos_ofertados.put(nombre, juego);
+                            }
                         }
                     }
+                    esperar(100, 50);
                 }
-                esperar(100,50);
             }
         }
     }
