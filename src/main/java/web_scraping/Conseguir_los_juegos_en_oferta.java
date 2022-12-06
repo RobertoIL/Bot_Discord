@@ -108,8 +108,6 @@ public class Conseguir_los_juegos_en_oferta {
                     String enlaceDelJuego = x.attr("href");
                     String urlImagen = x.select("div.col.search_capsule").select("img").attr("src");
                     if(!x.select("div.col.search_price_discount_combined.responsive_secondrow").text().isBlank()) {
-                        System.out.println("nombre: " + nombre);
-                        System.out.println(i);
                         if(x.select("div.col.search_price.discounted.responsive_secondrow").text().length() > 0) {
                             precio = x.select("div.col.search_price.discounted.responsive_secondrow").text()
                                     .substring(x.select("div.col.search_price.discounted.responsive_secondrow").text().lastIndexOf("C"));
@@ -127,9 +125,6 @@ public class Conseguir_los_juegos_en_oferta {
                         }
                     }else if(!x.hasClass("div.search_result_row.ds_collapse_flag.ds_flagged.ds_excluded_by_preferences.app_impression_tracked")){
                         Document paginaEspecial = intentarObtenerDocumento(x.attr("href"));
-                        System.out.println("Posible error de precios en blanco");
-                        System.out.println("pagina = "+ i);
-                        System.out.println("Nombre del juego = " + nombre);
                         if(paginaEspecial != null){
                             if(paginaEspecial.select("div.game_area_purchase").select("div.game_area_purchase_game_wrapper.dynamic_bundle_description.ds_no_flags").first() != null){
                                 descuento = paginaEspecial.select("div.game_area_purchase").select("div.game_area_purchase_game_wrapper.dynamic_bundle_description.ds_no_flags")
@@ -140,12 +135,11 @@ public class Conseguir_los_juegos_en_oferta {
                                 descuento = paginaEspecial.select("div.game_area_purchase").select("div.game_area_purchase_game_wrapper").first().select("div.discount_pct").text();
                                 precio = paginaEspecial.select("div.game_area_purchase").select("div.game_area_purchase_game_wrapper").first().select("div.discount_final_price").text();
                             }
-                            System.out.println(precio);
-                            System.out.println("");
                         }else{
                             continue;
                         }
                     }
+
                     if(descuento.equals("-100%")){
                         Juegos_gratis juego = new Juegos_gratis(nombre, enlaceDelJuego, urlImagen);
                         if(!juegos_gratis.containsValue(juego)){
