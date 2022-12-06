@@ -2,17 +2,8 @@ package Firebase;
 
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import io.netty.handler.codec.serialization.ObjectEncoder;
-import web_scraping.Juegos_gratis;
-import web_scraping.Juegos_oferta;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
@@ -24,15 +15,8 @@ public class CRUDFirebase {
         bd = conexion.iniciarFirebase();
     }
 
-    public boolean addFirebase(Map<String, Object> docData, String nombre_documento, String collection){
+    public boolean crearDocumento(Map<String, Object> docData, String nombre_documento, String collection){
         boolean key = false;
-            /*
-            docData = new HashMap<>();
-            docData.put("name", "Los Angeles");
-            docData.put("state", "CA");
-            docData.put("country", "USA");
-            docData.put("regions", Arrays.asList("west_coast", "socal"));
-                 */
             try{
                 ApiFuture<WriteResult> future = bd.collection(collection).document(nombre_documento).set(docData);
                 System.out.println("Update time : " + future.get().getUpdateTime());
@@ -42,6 +26,41 @@ public class CRUDFirebase {
                 e.printStackTrace();
             }
 
+        return key;
+    }
+
+    public boolean actualizarDocumento(String coleccion, String documento, HashMap<String, Object>doc){
+        boolean key = false;
+        try{
+            DocumentReference docRef = bd.collection(coleccion).document(documento);
+
+            ApiFuture<WriteResult> future = docRef.update(doc);
+
+            WriteResult result = future.get();
+            System.out.println("Write result: " + result);
+            key = true;
+        }
+        catch(InterruptedException | ExecutionException e){
+            e.printStackTrace();
+        }
+        return key;
+    }
+    public boolean getDocument(String coleccion, String documento){
+        boolean key = false;
+        try{
+            DocumentReference docRef = bd.collection(coleccion).document(documento);
+            ApiFuture<DocumentSnapshot> future = docRef.get();
+
+            DocumentSnapshot document = future.get();
+            if (document.exists()) {
+                System.out.println("Document data: " + document.getData());
+            } else {
+                System.out.println("No such document!");
+            }
+            key = true;
+        }catch(InterruptedException | ExecutionException e){
+            e.printStackTrace();
+        }
         return key;
     }
 
