@@ -21,6 +21,7 @@ public class Bot_test1 {
         for (int i = 0; i < inicio.getJuegos_ofertados().size()+inicio.getJuegos_gratis().size(); i++) {
             baseConLasOfertas.crearDocumento(inicio.getJuegos_ofertados(),inicio.getJuegos_ofertados().keySet().stream().collect(Collectors.toList()).get(i),"juegos_ofertas");
         }
+        //el token se genera desde la cuenta de discord donde esta el bot
         final String token = "";
 
         JDA jda  =JDABuilder.createDefault(token)
