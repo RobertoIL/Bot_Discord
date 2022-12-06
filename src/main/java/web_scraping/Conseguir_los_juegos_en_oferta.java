@@ -114,7 +114,7 @@ public class Conseguir_los_juegos_en_oferta {
                     }
                     String nombre = x.select("div.col.search_name.ellipsis").text();
                     String enlaceDelJuego = x.attr("href");
-                    String urlImagen = x.select("div.col.search_capsule").attr("src");
+                    String urlImagen = x.select("div.col.search_capsule").select("img").attr("src");
                     if(descuento.equals("-100%")){
                         Juegos_gratis juego = new Juegos_gratis(nombre, enlaceDelJuego, urlImagen);
                         if(!juegos_gratis.containsValue(juego)){
