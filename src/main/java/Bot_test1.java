@@ -18,8 +18,11 @@ public class Bot_test1 {
         inicio.obtenerOfertasdeGog();
         inicio.obtenerOfertasSteam();
         CRUDFirebase baseConLasOfertas = new CRUDFirebase();
-        for (int i = 0; i < inicio.getJuegos_ofertados().size()+inicio.getJuegos_gratis().size(); i++) {
+        for (int i = 0; i < inicio.getJuegos_ofertados().size(); i++) {
             baseConLasOfertas.crearDocumento(inicio.getJuegos_ofertados(),inicio.getJuegos_ofertados().keySet().stream().collect(Collectors.toList()).get(i),"juegos_ofertas");
+        }
+        for (int i = 0; i < inicio.getJuegos_gratis().size(); i++) {
+            baseConLasOfertas.crearDocumento(inicio.getJuegos_gratis(),inicio.getJuegos_gratis().keySet().stream().collect(Collectors.toList()).get(i),"juegos_gratis");
         }
         //el token se genera desde la cuenta de discord donde esta el bot
         final String token = "";
