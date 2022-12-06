@@ -13,6 +13,11 @@ public class Juegos_gratis {
         this.imagen = imagen;
     }
 
+    public Juegos_gratis(String nombre, String sitio_web) {
+        this.nombre = nombre;
+        this.sitio_web = sitio_web;
+    }
+
     public Juegos_gratis() {
     }
 

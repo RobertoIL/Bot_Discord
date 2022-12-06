@@ -13,6 +13,12 @@ public class Juegos_oferta {
         this.imagen = imagen;
     }
 
+    public Juegos_oferta(String nombre, String precio, String sitio_web) {
+        this.nombre = nombre;
+        this.precio = precio;
+        this.sitio_web = sitio_web;
+    }
+
     public Juegos_oferta() {
     }
 
