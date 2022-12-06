@@ -111,10 +111,15 @@ public class Conseguir_los_juegos_en_oferta {
                     }else if(!x.hasClass("div.search_result_row.ds_collapse_flag.ds_flagged.ds_excluded_by_preferences.app_impression_tracked")){
                         Document paginaEspecial = intentarObtenerDocumento(x.attr("href"));
                         if(paginaEspecial != null){
-                            descuento = paginaEspecial.select("div.game_area_purchase").select("div.game_area_purchase_game_wrapper.dynamic_bundle_description.ds_no_flags")
-                                    .first().select("div.discount_block.game_purchase_discount").select("div.discount_pct").text();
-                            precio =paginaEspecial.select("div.game_area_purchase").select("div.game_area_purchase_game_wrapper.dynamic_bundle_description.ds_no_flags")
-                                    .first().select("div.discount_block.game_purchase_discount").select("div.discount_prices").select("div.discount_final_price").text();
+                            if(paginaEspecial.select("div.game_area_purchase").select("div.game_area_purchase_game_wrapper.dynamic_bundle_description.ds_no_flags").first() != null){
+                                descuento = paginaEspecial.select("div.game_area_purchase").select("div.game_area_purchase_game_wrapper.dynamic_bundle_description.ds_no_flags")
+                                        .first().select("div.discount_block.game_purchase_discount").select("div.discount_pct").text();
+                                precio =paginaEspecial.select("div.game_area_purchase").select("div.game_area_purchase_game_wrapper.dynamic_bundle_description.ds_no_flags")
+                                        .first().select("div.discount_block.game_purchase_discount").select("div.discount_prices").select("div.discount_final_price").text();
+                            }else{
+                                descuento = paginaEspecial.select("div.game_area_purchase").select("div.game_area_purchase_game_wrapper").first().select("div.discount_pct").text();
+                                precio = paginaEspecial.select("div.game_area_purchase").select("div.game_area_purchase_game_wrapper").first().select("div.discount_final_price").text();
+                            }
                         }else{
                             continue;
                         }
