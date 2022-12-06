@@ -14,7 +14,7 @@ public class Conexion {
 
         //Firestore bd = null;
         try{
-            FirebaseOptions options = new FirebaseOptions.Builder()
+            FirebaseOptions options = FirebaseOptions.builder()
                     .setCredentials(GoogleCredentials.
                             fromStream(Objects.requireNonNull(getClass()
                                     .getResourceAsStream("Firebase/celestine-ae15b-firebase-adminsdk-ej4dv-0941c34ad6.json"))))
