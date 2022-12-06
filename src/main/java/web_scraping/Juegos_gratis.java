@@ -8,4 +8,8 @@ public class Juegos_gratis extends Juego{
     public Juegos_gratis(String nombre, String sitio_web, String imagen) {
         super(nombre, sitio_web, imagen);
     }
+
+    public Juegos_gratis(String nombre, String sitio_web) {
+        super(nombre,sitio_web);
+    }
 }

@@ -10,4 +10,9 @@ public class Juego {
         this.sitio_web = sitio_web;
         this.imagen = imagen;
     }
+
+    public Juego(String nombre, String sitio_web) {
+        this.nombre = nombre;
+        this.sitio_web = sitio_web;
+    }
 }
