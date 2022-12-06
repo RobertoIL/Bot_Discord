@@ -15,6 +15,13 @@ public class Conseguir_los_juegos_en_oferta {
     HashMap<String, Object> juegos_gratis = new HashMap<>();
     HashMap<String, Object> juegos_ofertados = new HashMap<>();
 
+    public HashMap<String, Object> getJuegos_gratis() {
+        return juegos_gratis;
+    }
+
+    public HashMap<String, Object> getJuegos_ofertados() {
+        return juegos_ofertados;
+    }
 
     public void obtenerOfertasdeGog(){
         int numeroPaginas = 1;
