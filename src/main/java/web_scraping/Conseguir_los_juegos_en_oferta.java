@@ -58,42 +58,18 @@ public class Conseguir_los_juegos_en_oferta {
                             juego_individual.put("Imagen",urlImagen);
                             juego_individual.put("Enlace_Al_Juego",enlaceDelJuego);
                             if (descuento.equals("-100%")) {
-                                Juegos_gratis juegoNuevo = new Juegos_gratis(nombre, enlaceDelJuego, urlImagen);
-                                if (!juegos_gratis.containsValue(juegoNuevo)) {
-                                    juegos_gratis.put(nombre, Map.copyOf(juego_individual));
-                                } else {
-                                    juegos_gratis.remove(nombre, juegoNuevo);
-                                    juegos_gratis.put(nombre, Map.copyOf(juego_individual));
-                                }
+                                juegos_gratis.put(nombre, Map.copyOf(juego_individual));
                             } else {
-                                Juegos_oferta juegoNuevo = new Juegos_oferta(nombre, precio, enlaceDelJuego, urlImagen);
-                                if (!juegos_ofertados.containsValue(juegoNuevo)) {
-                                    juegos_ofertados.put(nombre, Map.copyOf(juego_individual));
-                                } else {
-                                    juegos_ofertados.remove(nombre, juegoNuevo);
-                                    juegos_ofertados.put(nombre, Map.copyOf(juego_individual));
-                                }
+                                juegos_ofertados.put(nombre, Map.copyOf(juego_individual));
                             }
                         }else{
                             juego_individual.put("Nombre_Juego", nombre);
                             juego_individual.put("Precio_Juego", precio);
                             juego_individual.put("Enlace_Al_Juego",enlaceDelJuego);
                             if (descuento.equals("-100%")) {
-                                Juegos_gratis juegoNuevo = new Juegos_gratis(nombre, enlaceDelJuego);
-                                if (!juegos_gratis.containsValue(juegoNuevo)) {
-                                    juegos_gratis.put(nombre, Map.copyOf(juego_individual));
-                                } else {
-                                    juegos_gratis.remove(nombre, juegoNuevo);
-                                    juegos_gratis.put(nombre, Map.copyOf(juego_individual));
-                                }
+                                juegos_gratis.put(nombre, Map.copyOf(juego_individual));
                             } else {
-                                Juegos_oferta juegoNuevo = new Juegos_oferta(nombre, precio, enlaceDelJuego);
-                                if (!juegos_ofertados.containsValue(juegoNuevo)) {
-                                    juegos_ofertados.put(nombre, Map.copyOf(juego_individual));
-                                } else {
-                                    juegos_ofertados.remove(nombre, Map.copyOf(juego_individual));
-                                    juegos_ofertados.put(nombre, Map.copyOf(juego_individual));
-                                }
+                                juegos_ofertados.put(nombre, Map.copyOf(juego_individual));
                             }
                         }
                         juego_individual.clear();
@@ -164,23 +140,19 @@ public class Conseguir_los_juegos_en_oferta {
                     }
 
                     if(descuento.equals("-100%")){
-                        Juegos_gratis juego = new Juegos_gratis(nombre, enlaceDelJuego, urlImagen);
-                        if(!juegos_gratis.containsValue(juego)){
-                            juegos_gratis.put(nombre, juego);
-                        }else{
-                            juegos_gratis.remove(nombre, juego);
-                            juegos_gratis.put(nombre, juego);
-                        }
+                        juego_individual.put("Nombre_Juego", nombre);
+                        juego_individual.put("Imagen",urlImagen);
+                        juego_individual.put("Enlace_Al_Juego",enlaceDelJuego);
+                        juegos_gratis.put(nombre, Map.copyOf(juego_individual));
                     }else{
-                        Juegos_oferta juego = new Juegos_oferta(nombre, precio, enlaceDelJuego, urlImagen);
-                        if(!juegos_ofertados.containsValue(juego)){
-                            juegos_ofertados.put(nombre, juego);
-                        }else{
-                            juegos_ofertados.remove(nombre, juego);
-                            juegos_ofertados.put(nombre, juego);
-                        }
+                        juego_individual.put("Nombre_Juego", nombre);
+                        juego_individual.put("Precio_Juego", precio);
+                        juego_individual.put("Imagen",urlImagen);
+                        juego_individual.put("Enlace_Al_Juego",enlaceDelJuego);
+                        juegos_ofertados.put(nombre, Map.copyOf(juego_individual));
                     }
                 }
+                juego_individual.clear();
                 esperar(100,50);
             }
         }

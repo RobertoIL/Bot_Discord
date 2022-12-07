@@ -49,8 +49,6 @@ public class Bot_test1 {
 
         jda.upsertCommand("ofertas", "Mostrar ofertas destacadas de viedeojuegos").queue();
 
-
-
     }
     public static void actualizarBaseDeDatos(ConexionAFirebase baseDeDatos, Conseguir_los_juegos_en_oferta scraper){
         baseDeDatos.eliminarTabla("Juegos_rebajados", 1);
