@@ -12,13 +12,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 
 public class ConexionAFirebase {
     static Firestore bd;
     public void conectar(){
         try {
-            InputStream serviceAccount = new FileInputStream("src/main/java/Firebase/config.json");
+            InputStream serviceAccount = new FileInputStream("C:\\Users\\basti\\IdeaProjects\\ScrappingTest\\archivo.json");
             GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
             FirebaseOptions options = new FirebaseOptions.Builder()
                     .setCredentials(credentials)
@@ -68,18 +67,6 @@ public class ConexionAFirebase {
             }
         } catch (Exception e) {
             System.err.println("Error deleting collection : " + e.getMessage());
-        }
-    }
-    public void getDocument(String coleccion, Map<String, Object> juegos) {
-        try {
-            ApiFuture<QuerySnapshot> future = bd.collection(coleccion).get();
-            List<QueryDocumentSnapshot> documents = future.get().getDocuments();
-            for (QueryDocumentSnapshot document : documents) {
-                juegos.put(document.getId(), document.getData());
-            }
-
-        } catch (ExecutionException | InterruptedException e) {
-            throw new RuntimeException(e);
         }
     }
     public void terminarConexion(){
