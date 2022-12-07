@@ -17,7 +17,7 @@ public class ConexionAFirebase {
     static Firestore bd;
     public void conectar(){
         try {
-            InputStream serviceAccount = new FileInputStream("C:\\Users\\basti\\IdeaProjects\\ScrappingTest\\archivo.json");
+            InputStream serviceAccount = new FileInputStream("src/main/java/Firebase/config.json");
             GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
             FirebaseOptions options = new FirebaseOptions.Builder()
                     .setCredentials(credentials)

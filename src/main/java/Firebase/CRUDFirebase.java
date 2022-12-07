@@ -4,6 +4,7 @@ import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
@@ -45,24 +46,22 @@ public class CRUDFirebase {
         }
         return key;
     }
-    public boolean getDocument(String coleccion, String documento){
+    public boolean getDocument(String coleccion, Map<String, Object> juegos) {
         boolean key = false;
-        try{
-            DocumentReference docRef = bd.collection(coleccion).document(documento);
-            ApiFuture<DocumentSnapshot> future = docRef.get();
-
-            DocumentSnapshot document = future.get();
-            if (document.exists()) {
-                System.out.println("Document data: " + document.getData());
-            } else {
-                System.out.println("No such document!");
+        try {
+            ApiFuture<QuerySnapshot> future = bd.collection(coleccion).get();
+            List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+            for (QueryDocumentSnapshot document : documents) {
+                juegos.put(document.getId(), document.getData());
             }
             key = true;
-        }catch(InterruptedException | ExecutionException e){
-            e.printStackTrace();
+
+        } catch (ExecutionException | InterruptedException e) {
+            throw new RuntimeException(e);
         }
         return key;
     }
+
 
 
 }
