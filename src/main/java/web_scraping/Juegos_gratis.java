@@ -23,10 +23,7 @@ public class Juegos_gratis{
 
     @Override
     public String toString() {
-        return "Juegos_gratis{" +
-                "nombre='" + nombre + '\'' +
-                ", sitio_web='" + sitio_web + '\'' +
-                ", imagen='" + imagen + '\'' +
-                '}';
+        return "nombre= " + nombre + "\n" +
+                "sitio_web= " + sitio_web;
     }
 }

@@ -6,6 +6,7 @@ import com.google.cloud.firestore.*;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
+import web_scraping.Conseguir_los_juegos_en_oferta;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -16,9 +17,12 @@ import java.util.Map;
 
 public class ConexionAFirebase {
     static Firestore bd;
+
+    Conseguir_los_juegos_en_oferta scraper = new Conseguir_los_juegos_en_oferta();
     public void conectar(){
         try {
-            InputStream serviceAccount = new FileInputStream("C:\\Users\\basti\\IdeaProjects\\ScrappingTest\\archivo.json");
+            InputStream serviceAccount = new FileInputStream("" +
+                    "src/main/java/Firebase/config.json");
             GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
             FirebaseOptions options = new FirebaseOptions.Builder()
                     .setCredentials(credentials)

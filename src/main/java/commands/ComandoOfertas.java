@@ -4,36 +4,25 @@ import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.GenericSelectMenuInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.dv8tion.jda.api.interactions.commands.OptionMapping;
-import net.dv8tion.jda.api.interactions.components.ActionRow;
-import net.dv8tion.jda.api.interactions.components.Component;
-import net.dv8tion.jda.api.interactions.components.ComponentInteraction;
-import net.dv8tion.jda.api.interactions.components.selections.SelectMenu;
-import net.dv8tion.jda.api.interactions.components.selections.SelectMenuInteraction;
-import net.dv8tion.jda.api.interactions.components.selections.SelectOption;
-import net.dv8tion.jda.api.interactions.components.text.TextInput;
-import net.dv8tion.jda.api.interactions.components.text.TextInputStyle;
-import net.dv8tion.jda.api.interactions.modals.Modal;
-import org.jetbrains.annotations.NotNull;
+
+import web_scraping.Juegos_oferta;
 
 import java.awt.event.ComponentEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ComandoOfertas extends ListenerAdapter {
+
+    List<Juegos_oferta> listaJuegos = new ArrayList<>();
+    public ComandoOfertas(List<Juegos_oferta> llaves) {
+        this.listaJuegos=llaves.subList(0, 5);
+    }
     @Override
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
-        if(event.getName().equals("ofertas")) {
-            OptionMapping opcion = event.getOption("nombre-plataforma");
-            if (opcion == null){
-                event.reply("No selecciono ninguna opcion disponible").queue();
-            }
-
+        if (event.getName().equals("juegos-ofertas")) {
+            event.reply("LAS MEJORES OFERTAS: "+ "\n"+
+                    listaJuegos.toString()).queue();
         }
     }
 
-    @Override
-    public void onGenericSelectMenuInteraction(@NotNull GenericSelectMenuInteractionEvent event) {
-        if (event.getComponentId().equals("seleccione-plataforma")){
-            event.reply("Seleccionaste " + event.getValues().get(0)).queue();
-        }
-    }
 }
