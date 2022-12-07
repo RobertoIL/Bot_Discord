@@ -22,7 +22,6 @@ public class Conseguir_los_juegos_en_oferta {
     }
 
     public void obtenerOfertasdeGog(){
-
         int numeroPaginas = 1;
         int numeroDeJuego=1;
         Document paginaDeGog = intentarObtenerDocumento("https://www.gog.com/en/games?discounted=true");
@@ -73,23 +72,18 @@ public class Conseguir_los_juegos_en_oferta {
                             }
                         }
                         juego_individual.clear();
-                        System.out.println("Juego " + numeroDeJuego + " terminado, pasando al siguiente...");
-                        if(numeroDeJuego >= 2){
-                            break;
-                        }
+                        System.out.println("Juego " + numeroDeJuego + " de gog terminado, pasando al siguiente...");
                         numeroDeJuego++;
                     }
                 }else{
                     System.out.println("La pagina no esta disponible");
                 }
-                esperar(100, 25);
-                if(numeroDeJuego >= 2){
-                    break;
-                }
+                esperar(100, 50);
             }
         }
     }
     public void obtenerOfertasSteam(){
+        int numeroDeJuego=1;
         Document pagina = intentarObtenerDocumento("https://store.steampowered.com/search/?ignore_preferences=1&specials=1&page=1&ndl=1");
         if (pagina != null) {
             int numeroMaximoDePaginas = 0;
@@ -151,8 +145,10 @@ public class Conseguir_los_juegos_en_oferta {
                         juego_individual.put("Enlace_Al_Juego",enlaceDelJuego);
                         juegos_ofertados.put(nombre, Map.copyOf(juego_individual));
                     }
+                    juego_individual.clear();
+                    System.out.println("Juego " + numeroDeJuego + " de steam terminado, pasando al siguiente...");
+                    numeroDeJuego++;
                 }
-                juego_individual.clear();
                 esperar(100,50);
             }
         }

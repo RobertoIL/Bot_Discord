@@ -16,26 +16,24 @@ import java.util.stream.Collectors;
 
 public class Bot_test1 {
     public static void main(String[] args) throws InterruptedException {
-        /*
-        Firebase baseDeDatos = new Firebase();
+        ConexionAFirebase baseDeDatos = new ConexionAFirebase();
         Conseguir_los_juegos_en_oferta scraper = new Conseguir_los_juegos_en_oferta();
         scraper.obtenerOfertasdeGog();
+        scraper.obtenerOfertasSteam();
         System.out.println("Registros terminados, empezando subida...");
         baseDeDatos.conectar();
-        if(scraper.juegos_ofertados.size() != 0){
-            for (Map.Entry<String, Object> entry : scraper.juegos_ofertados.entrySet()) {
-                baseDeDatos.insertarDatos("Juegos_rebajados", entry.getKey(), (Map<String, Object>) scraper.juegos_ofertados.get(entry.getKey()));
+        if(scraper.getJuegos_ofertados().size() != 0){
+            for (Map.Entry<String, Object> entry : scraper.getJuegos_ofertados().entrySet()) {
+                baseDeDatos.insertarDatos("Juegos_rebajados", entry.getKey(), (Map<String, Object>) scraper.getJuegos_ofertados().get(entry.getKey()));
             }
         }
-        if(scraper.juegos_gratis.size() != 0){
-            for (Map.Entry<String, Object> entry:scraper.juegos_gratis.entrySet()){
-                baseDeDatos.insertarDatos("Juegos_gratis", entry.getKey(), (Map<String, Object>) scraper.juegos_gratis.get(entry.getKey()));
+        if(scraper.getJuegos_gratis().size() != 0){
+            for (Map.Entry<String, Object> entry:scraper.getJuegos_gratis().entrySet()){
+                baseDeDatos.insertarDatos("Juegos_gratis", entry.getKey(), (Map<String, Object>) scraper.getJuegos_gratis().get(entry.getKey()));
             }
         }
-        baseDeDatos.MostrarDatos("Juegos_rebajados");
-        baseDeDatos.eliminarTabla("Juegos_rebajados");
-        System.out.println("a");
-         */
+        System.out.println("Subida de datos terminada, Base de datos lista para ser usada");
+
         //el token se genera desde la cuenta de discord donde esta el bot
         final String token = "";
 
