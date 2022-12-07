@@ -24,12 +24,12 @@ public class Bot_test1 {
         baseDeDatos.conectar();
         if(scraper.getJuegos_ofertados().size() != 0){
             for (Map.Entry<String, Object> entry : scraper.getJuegos_ofertados().entrySet()) {
-                baseDeDatos.insertarDatos("Juegos_rebajados", entry.getKey(), (Map<String, Object>) scraper.getJuegos_ofertados().get(entry.getKey()));
+                baseDeDatos.insertarDatos("juegos_ofertas", entry.getKey(), (Map<String, Object>) scraper.getJuegos_ofertados().get(entry.getKey()));
             }
         }
         if(scraper.getJuegos_gratis().size() != 0){
             for (Map.Entry<String, Object> entry:scraper.getJuegos_gratis().entrySet()){
-                baseDeDatos.insertarDatos("Juegos_gratis", entry.getKey(), (Map<String, Object>) scraper.getJuegos_gratis().get(entry.getKey()));
+                baseDeDatos.insertarDatos("juegos_gratis", entry.getKey(), (Map<String, Object>) scraper.getJuegos_gratis().get(entry.getKey()));
             }
         }
         System.out.println("Subida de datos terminada, Base de datos lista para ser usada");
@@ -48,20 +48,21 @@ public class Bot_test1 {
         jda.upsertCommand("ofertas", "Mostrar ofertas destacadas de viedeojuegos").queue();
 
     }
+
     public static void actualizarBaseDeDatos(ConexionAFirebase baseDeDatos, Conseguir_los_juegos_en_oferta scraper){
-        baseDeDatos.eliminarTabla("Juegos_rebajados", 1);
-        baseDeDatos.eliminarTabla("Juegos_gratis", 1);
+        baseDeDatos.eliminarTabla("juegos_ofertas", 1);
+        baseDeDatos.eliminarTabla("juegos_gratis", 1);
         scraper.limpiarOfertas();
         scraper.obtenerOfertasSteam();
         scraper.obtenerOfertasdeGog();
         if(scraper.getJuegos_ofertados().size() != 0){
             for (Map.Entry<String, Object> entry : scraper.getJuegos_ofertados().entrySet()) {
-                baseDeDatos.insertarDatos("Juegos_rebajados", entry.getKey(), (Map<String, Object>) scraper.getJuegos_ofertados().get(entry.getKey()));
+                baseDeDatos.insertarDatos("juegos_ofertas", entry.getKey(), (Map<String, Object>) scraper.getJuegos_ofertados().get(entry.getKey()));
             }
         }
         if(scraper.getJuegos_gratis().size() != 0){
             for (Map.Entry<String, Object> entry:scraper.getJuegos_gratis().entrySet()){
-                baseDeDatos.insertarDatos("Juegos_gratis", entry.getKey(), (Map<String, Object>) scraper.getJuegos_gratis().get(entry.getKey()));
+                baseDeDatos.insertarDatos("juegos_gratis", entry.getKey(), (Map<String, Object>) scraper.getJuegos_gratis().get(entry.getKey()));
             }
         }
     }
