@@ -1,0 +1,61 @@
+package Firebase;
+
+import com.google.api.core.ApiFuture;
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.cloud.firestore.*;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
+import com.google.firebase.cloud.FirestoreClient;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+import java.util.Map;
+
+public class ConexionAFirebase {
+    static Firestore bd;
+    public void conectar(){
+        try {
+            InputStream serviceAccount = new FileInputStream("C:\\Users\\basti\\IdeaProjects\\ScrappingTest\\archivo.json");
+            GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
+            FirebaseOptions options = new FirebaseOptions.Builder()
+                    .setCredentials(credentials)
+                    .build();
+            FirebaseApp.initializeApp(options);
+            bd = FirestoreClient.getFirestore();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    public void insertarDatos(String nombre_tabla, String identificadorFila, Map<String, Object> campos){
+        try {
+            DocumentReference docRef = bd.collection(nombre_tabla).document(identificadorFila);
+            ApiFuture<WriteResult> result = docRef.set(campos);
+            System.out.println("Update time : " + result.get().getUpdateTime());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    public void MostrarDatos(String nombre_tabla){
+        try {
+            ApiFuture<QuerySnapshot> query = bd.collection(nombre_tabla).get();
+            QuerySnapshot querySnapshot = query.get();
+            List<QueryDocumentSnapshot> documents = querySnapshot.getDocuments();
+            for (QueryDocumentSnapshot document : documents) {
+                System.out.println("Juego: " + document.getId());
+                System.out.println(document.get("Nombre_Juego"));
+                System.out.println(document.get("Precio_Juego"));
+                System.out.println(document.get("Enlace_Al_Juego"));
+                System.out.println(document.get("Imagen"));
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    public void limpiarTabla(String tabla){
+        System.out.println("Limpiando tabla...");
+        bd.recursiveDelete(bd.collection(tabla));
+        System.out.println("Tabla limpiada");
+    }
+}
