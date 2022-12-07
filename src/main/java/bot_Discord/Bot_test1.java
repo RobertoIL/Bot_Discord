@@ -24,7 +24,7 @@ public class Bot_test1 {
         Juegos_gratis juegosGratis = new Juegos_gratis();
 
         ConexionAFirebase conexionAFirebase = new ConexionAFirebase();
-        conexionAFirebase.getDocument("juegos-gratis", juegos_gratis);
+        //conexionAFirebase.getDocument("juegos-gratis", juegos_gratis);
 
         //el token se genera desde la cuenta de discord donde esta el bot
         final String token = "MTAzOTYzNDE5NzE2MzI4NjY0MA.GTnAZT.JtMJ4_IJmJyOFlqNFlyUMxMF5Yv-Xk_302vfV4";
