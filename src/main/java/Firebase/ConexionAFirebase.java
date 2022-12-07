@@ -10,6 +10,7 @@ import com.google.firebase.cloud.FirestoreClient;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -37,20 +38,21 @@ public class ConexionAFirebase {
             e.printStackTrace();
         }
     }
-    public void MostrarDatos(String nombre_tabla){
+    public String[] devolverKeys(String nombre_tabla){
         try {
             ApiFuture<QuerySnapshot> query = bd.collection(nombre_tabla).get();
             QuerySnapshot querySnapshot = query.get();
             List<QueryDocumentSnapshot> documents = querySnapshot.getDocuments();
+            ArrayList<String> devolver = new ArrayList<>();
             for (QueryDocumentSnapshot document : documents) {
-                System.out.println("Juego: " + document.getId());
-                System.out.println(document.get("Nombre_Juego"));
-                System.out.println(document.get("Precio_Juego"));
-                System.out.println(document.get("Enlace_Al_Juego"));
-                System.out.println(document.get("Imagen"));
+                devolver.add(document.getId());
             }
+            String [] arregloDeKeys = new String[devolver.size()];
+            arregloDeKeys = devolver.toArray(arregloDeKeys);
+            return arregloDeKeys;
         }catch (Exception e){
             e.printStackTrace();
+            return new String[0];
         }
     }
     public void eliminarTabla(String collection, int batchSize){
