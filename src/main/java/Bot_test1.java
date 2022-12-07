@@ -31,6 +31,9 @@ public class Bot_test1 {
                 baseDeDatos.insertarDatos("Juegos_gratis", entry.getKey(), (Map<String, Object>) scraper.juegos_gratis.get(entry.getKey()));
             }
         }
+        baseDeDatos.MostrarDatos("Juegos_rebajados");
+        baseDeDatos.eliminarTabla("Juegos_rebajados");
+        System.out.println("a");
          */
         //el token se genera desde la cuenta de discord donde esta el bot
         final String token = "";
