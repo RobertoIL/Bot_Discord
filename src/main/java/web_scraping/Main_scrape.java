@@ -1,21 +1,13 @@
+package web_scraping;
 
 import Firebase.CRUDFirebase;
 import Firebase.ConexionAFirebase;
-import commands.ComandoJuegosGratis;
-import commands.ComandoOfertas;
-import listeners.EventoReaccion;
-import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.JDABuilder;
-import net.dv8tion.jda.api.sharding.ShardManager;
-import web_scraping.Conseguir_los_juegos_en_oferta;
 
-import javax.security.auth.login.LoginException;
-import java.io.IOException;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class Bot_test1 {
-    public static void main(String[] args) throws InterruptedException {
+public class Main_scrape {
+    public static void main(String[] args) {
         ConexionAFirebase baseDeDatos = new ConexionAFirebase();
         Conseguir_los_juegos_en_oferta scraper = new Conseguir_los_juegos_en_oferta();
         scraper.obtenerOfertasdeGog();
@@ -33,20 +25,6 @@ public class Bot_test1 {
             }
         }
         System.out.println("Subida de datos terminada, Base de datos lista para ser usada");
-
-        //el token se genera desde la cuenta de discord donde esta el bot
-        final String token = "";
-
-        JDA jda  =JDABuilder.createDefault(token)
-                    .addEventListeners(new EventoReaccion())
-                    .addEventListeners(new ComandoJuegosGratis())
-                    .addEventListeners(new ComandoOfertas())
-                    .build().awaitReady();
-
-        jda.upsertCommand("juegos-gratis", "Mostrar juegos destacados gratuitos").queue();
-
-        jda.upsertCommand("ofertas", "Mostrar ofertas destacadas de viedeojuegos").queue();
-
     }
 
     public static void actualizarBaseDeDatos(ConexionAFirebase baseDeDatos, Conseguir_los_juegos_en_oferta scraper){
@@ -66,5 +44,4 @@ public class Bot_test1 {
             }
         }
     }
-
 }
