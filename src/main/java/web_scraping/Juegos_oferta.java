@@ -18,4 +18,17 @@ public class Juegos_oferta{
         this.precio = precio;
         this.sitio_web = sitio_web;
     }
+
+    public Juegos_oferta() {
+    }
+
+    @Override
+    public String toString() {
+        return "Juegos_oferta{" +
+                "nombre='" + nombre + '\'' +
+                ", precio='" + precio + '\'' +
+                ", sitio_web='" + sitio_web + '\'' +
+                ", imagen='" + imagen + '\'' +
+                '}';
+    }
 }

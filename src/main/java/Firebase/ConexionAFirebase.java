@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 public class ConexionAFirebase {
     static Firestore bd;
@@ -67,6 +68,18 @@ public class ConexionAFirebase {
             }
         } catch (Exception e) {
             System.err.println("Error deleting collection : " + e.getMessage());
+        }
+    }
+    public void getDocument(String coleccion, Map<String, Object> juegos) {
+        try {
+            ApiFuture<QuerySnapshot> future = bd.collection(coleccion).get();
+            List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+            for (QueryDocumentSnapshot document : documents) {
+                juegos.put(document.getId(), document.getData());
+            }
+
+        } catch (ExecutionException | InterruptedException e) {
+            throw new RuntimeException(e);
         }
     }
     public void terminarConexion(){

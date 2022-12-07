@@ -17,4 +17,16 @@ public class Juegos_gratis{
         this.nombre = nombre;
         this.sitio_web = sitio_web;
     }
+
+    public Juegos_gratis() {
+    }
+
+    @Override
+    public String toString() {
+        return "Juegos_gratis{" +
+                "nombre='" + nombre + '\'' +
+                ", sitio_web='" + sitio_web + '\'' +
+                ", imagen='" + imagen + '\'' +
+                '}';
+    }
 }

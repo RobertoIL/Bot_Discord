@@ -1,3 +1,4 @@
+package bot_Discord;
 
 import Firebase.CRUDFirebase;
 import Firebase.ConexionAFirebase;
@@ -8,34 +9,25 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import web_scraping.Conseguir_los_juegos_en_oferta;
+import web_scraping.Juegos_gratis;
 
 import javax.security.auth.login.LoginException;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 public class Bot_test1 {
     public static void main(String[] args) throws InterruptedException {
-        ConexionAFirebase baseDeDatos = new ConexionAFirebase();
-        Conseguir_los_juegos_en_oferta scraper = new Conseguir_los_juegos_en_oferta();
-        scraper.obtenerOfertasdeGog();
-        scraper.obtenerOfertasSteam();
-        System.out.println("Registros terminados, empezando subida...");
-        baseDeDatos.conectar();
-        if(scraper.getJuegos_ofertados().size() != 0){
-            for (Map.Entry<String, Object> entry : scraper.getJuegos_ofertados().entrySet()) {
-                baseDeDatos.insertarDatos("Juegos_rebajados", entry.getKey(), (Map<String, Object>) scraper.getJuegos_ofertados().get(entry.getKey()));
-            }
-        }
-        if(scraper.getJuegos_gratis().size() != 0){
-            for (Map.Entry<String, Object> entry:scraper.getJuegos_gratis().entrySet()){
-                baseDeDatos.insertarDatos("Juegos_gratis", entry.getKey(), (Map<String, Object>) scraper.getJuegos_gratis().get(entry.getKey()));
-            }
-        }
-        System.out.println("Subida de datos terminada, Base de datos lista para ser usada");
+
+        Map<String, Object> juegos_gratis = new HashMap<>();
+        Juegos_gratis juegosGratis = new Juegos_gratis();
+
+        ConexionAFirebase conexionAFirebase = new ConexionAFirebase();
+        conexionAFirebase.getDocument("juegos-gratis", juegos_gratis);
 
         //el token se genera desde la cuenta de discord donde esta el bot
-        final String token = "";
+        final String token = "MTAzOTYzNDE5NzE2MzI4NjY0MA.GTnAZT.JtMJ4_IJmJyOFlqNFlyUMxMF5Yv-Xk_302vfV4";
 
         JDA jda  =JDABuilder.createDefault(token)
                     .addEventListeners(new EventoReaccion())
@@ -48,22 +40,6 @@ public class Bot_test1 {
         jda.upsertCommand("ofertas", "Mostrar ofertas destacadas de viedeojuegos").queue();
 
     }
-    public static void actualizarBaseDeDatos(ConexionAFirebase baseDeDatos, Conseguir_los_juegos_en_oferta scraper){
-        baseDeDatos.eliminarTabla("Juegos_rebajados", 1);
-        baseDeDatos.eliminarTabla("Juegos_gratis", 1);
-        scraper.limpiarOfertas();
-        scraper.obtenerOfertasSteam();
-        scraper.obtenerOfertasdeGog();
-        if(scraper.getJuegos_ofertados().size() != 0){
-            for (Map.Entry<String, Object> entry : scraper.getJuegos_ofertados().entrySet()) {
-                baseDeDatos.insertarDatos("Juegos_rebajados", entry.getKey(), (Map<String, Object>) scraper.getJuegos_ofertados().get(entry.getKey()));
-            }
-        }
-        if(scraper.getJuegos_gratis().size() != 0){
-            for (Map.Entry<String, Object> entry:scraper.getJuegos_gratis().entrySet()){
-                baseDeDatos.insertarDatos("Juegos_gratis", entry.getKey(), (Map<String, Object>) scraper.getJuegos_gratis().get(entry.getKey()));
-            }
-        }
-    }
+
 
 }
