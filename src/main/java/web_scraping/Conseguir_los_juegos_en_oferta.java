@@ -22,7 +22,6 @@ public class Conseguir_los_juegos_en_oferta {
     }
 
     public void obtenerOfertasdeGog(){
-
         int numeroPaginas = 1;
         int numeroDeJuego=1;
         Document paginaDeGog = intentarObtenerDocumento("https://www.gog.com/en/games?discounted=true");
@@ -58,62 +57,33 @@ public class Conseguir_los_juegos_en_oferta {
                             juego_individual.put("Imagen",urlImagen);
                             juego_individual.put("Enlace_Al_Juego",enlaceDelJuego);
                             if (descuento.equals("-100%")) {
-                                Juegos_gratis juegoNuevo = new Juegos_gratis(nombre, enlaceDelJuego, urlImagen);
-                                if (!juegos_gratis.containsValue(juegoNuevo)) {
-                                    juegos_gratis.put(nombre, Map.copyOf(juego_individual));
-                                } else {
-                                    juegos_gratis.remove(nombre, juegoNuevo);
-                                    juegos_gratis.put(nombre, Map.copyOf(juego_individual));
-                                }
+                                juegos_gratis.put(nombre, Map.copyOf(juego_individual));
                             } else {
-                                Juegos_oferta juegoNuevo = new Juegos_oferta(nombre, precio, enlaceDelJuego, urlImagen);
-                                if (!juegos_ofertados.containsValue(juegoNuevo)) {
-                                    juegos_ofertados.put(nombre, Map.copyOf(juego_individual));
-                                } else {
-                                    juegos_ofertados.remove(nombre, juegoNuevo);
-                                    juegos_ofertados.put(nombre, Map.copyOf(juego_individual));
-                                }
+                                juegos_ofertados.put(nombre, Map.copyOf(juego_individual));
                             }
                         }else{
                             juego_individual.put("Nombre_Juego", nombre);
                             juego_individual.put("Precio_Juego", precio);
                             juego_individual.put("Enlace_Al_Juego",enlaceDelJuego);
                             if (descuento.equals("-100%")) {
-                                Juegos_gratis juegoNuevo = new Juegos_gratis(nombre, enlaceDelJuego);
-                                if (!juegos_gratis.containsValue(juegoNuevo)) {
-                                    juegos_gratis.put(nombre, Map.copyOf(juego_individual));
-                                } else {
-                                    juegos_gratis.remove(nombre, juegoNuevo);
-                                    juegos_gratis.put(nombre, Map.copyOf(juego_individual));
-                                }
+                                juegos_gratis.put(nombre, Map.copyOf(juego_individual));
                             } else {
-                                Juegos_oferta juegoNuevo = new Juegos_oferta(nombre, precio, enlaceDelJuego);
-                                if (!juegos_ofertados.containsValue(juegoNuevo)) {
-                                    juegos_ofertados.put(nombre, Map.copyOf(juego_individual));
-                                } else {
-                                    juegos_ofertados.remove(nombre, Map.copyOf(juego_individual));
-                                    juegos_ofertados.put(nombre, Map.copyOf(juego_individual));
-                                }
+                                juegos_ofertados.put(nombre, Map.copyOf(juego_individual));
                             }
                         }
                         juego_individual.clear();
-                        System.out.println("Juego " + numeroDeJuego + " terminado, pasando al siguiente...");
-                        if(numeroDeJuego >= 2){
-                            break;
-                        }
+                        System.out.println("Juego " + numeroDeJuego + " de gog terminado, pasando al siguiente...");
                         numeroDeJuego++;
                     }
                 }else{
                     System.out.println("La pagina no esta disponible");
                 }
-                esperar(100, 25);
-                if(numeroDeJuego >= 2){
-                    break;
-                }
+                esperar(100, 50);
             }
         }
     }
     public void obtenerOfertasSteam(){
+        int numeroDeJuego=1;
         Document pagina = intentarObtenerDocumento("https://store.steampowered.com/search/?ignore_preferences=1&specials=1&page=1&ndl=1");
         if (pagina != null) {
             int numeroMaximoDePaginas = 0;
@@ -164,22 +134,20 @@ public class Conseguir_los_juegos_en_oferta {
                     }
 
                     if(descuento.equals("-100%")){
-                        Juegos_gratis juego = new Juegos_gratis(nombre, enlaceDelJuego, urlImagen);
-                        if(!juegos_gratis.containsValue(juego)){
-                            juegos_gratis.put(nombre, juego);
-                        }else{
-                            juegos_gratis.remove(nombre, juego);
-                            juegos_gratis.put(nombre, juego);
-                        }
+                        juego_individual.put("Nombre_Juego", nombre);
+                        juego_individual.put("Imagen",urlImagen);
+                        juego_individual.put("Enlace_Al_Juego",enlaceDelJuego);
+                        juegos_gratis.put(nombre, Map.copyOf(juego_individual));
                     }else{
-                        Juegos_oferta juego = new Juegos_oferta(nombre, precio, enlaceDelJuego, urlImagen);
-                        if(!juegos_ofertados.containsValue(juego)){
-                            juegos_ofertados.put(nombre, juego);
-                        }else{
-                            juegos_ofertados.remove(nombre, juego);
-                            juegos_ofertados.put(nombre, juego);
-                        }
+                        juego_individual.put("Nombre_Juego", nombre);
+                        juego_individual.put("Precio_Juego", precio);
+                        juego_individual.put("Imagen",urlImagen);
+                        juego_individual.put("Enlace_Al_Juego",enlaceDelJuego);
+                        juegos_ofertados.put(nombre, Map.copyOf(juego_individual));
                     }
+                    juego_individual.clear();
+                    System.out.println("Juego " + numeroDeJuego + " de steam terminado, pasando al siguiente...");
+                    numeroDeJuego++;
                 }
                 esperar(100,50);
             }

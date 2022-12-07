@@ -53,9 +53,23 @@ public class ConexionAFirebase {
             e.printStackTrace();
         }
     }
-    public void limpiarTabla(String tabla){
-        System.out.println("Limpiando tabla...");
-        bd.recursiveDelete(bd.collection(tabla));
-        System.out.println("Tabla limpiada");
+    public void eliminarTabla(String collection, int batchSize){
+        try {
+            ApiFuture<QuerySnapshot> future = bd.collection(collection).limit(batchSize).get();
+            int deleted = 0;
+            List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+            for (QueryDocumentSnapshot document : documents) {
+                document.getReference().delete();
+                ++deleted;
+            }
+            if (deleted >= batchSize) {
+                eliminarTabla(collection, batchSize);
+            }
+        } catch (Exception e) {
+            System.err.println("Error deleting collection : " + e.getMessage());
+        }
+    }
+    public void terminarConexion(){
+        bd.shutdown();
     }
 }
