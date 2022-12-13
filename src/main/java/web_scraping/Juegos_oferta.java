@@ -24,6 +24,6 @@ public class Juegos_oferta{
     public String toString() {
         return "nombre= " + nombre + "\n" +
                 "precio= " + precio + "\n" +
-                "sitio_web= " + sitio_web;
+                "sitio_web= " + sitio_web + "\n";
     }
 }

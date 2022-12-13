@@ -81,11 +81,14 @@ public class ConexionAFirebase {
     public List<Juegos_oferta> devolverJuegosEnOferta(){
         List<Juegos_oferta> objetos = new ArrayList<>();
         try {
-            ApiFuture<QuerySnapshot> future = bd.collection("juegos_oferta").get();
-// future.get() blocks on response
+            ApiFuture<QuerySnapshot> future = bd.collection("Juegos_rebajados").get();
             List<QueryDocumentSnapshot> documents = future.get().getDocuments();
             for (QueryDocumentSnapshot document : documents) {
-                objetos.add(document.toObject(Juegos_oferta.class));
+                    String enlace = document.getData().get("Enlace_Al_Juego").toString();
+                    String precio = document.getData().get("Precio_Juego").toString();
+                    String imagen = document.getData().get("Imagen").toString();
+                    String nombre = document.getData().get("Nombre_Juego").toString();
+                objetos.add(new Juegos_oferta(nombre, precio, enlace, imagen));
             }
             return objetos;
         }catch (Exception e){
@@ -96,11 +99,13 @@ public class ConexionAFirebase {
     public List<Juegos_gratis> devolverJuegosGratis(){
         List<Juegos_gratis> objetos = new ArrayList<>();
         try {
-            ApiFuture<QuerySnapshot> future = bd.collection("juegos_gratis").get();
-// future.get() blocks on response
+            ApiFuture<QuerySnapshot> future = bd.collection("Juegos_gratis").get();
             List<QueryDocumentSnapshot> documents = future.get().getDocuments();
             for (QueryDocumentSnapshot document : documents) {
-                objetos.add(document.toObject(Juegos_gratis.class));
+                String enlace = document.getData().get("Enlace_Al_Juego").toString();
+                String imagen = document.getData().get("Imagen").toString();
+                String nombre = document.getData().get("Nombre_Juego").toString();
+                objetos.add(new Juegos_gratis(nombre, enlace, imagen));
             }
             return objetos;
         }catch (Exception e){
@@ -117,12 +122,11 @@ public class ConexionAFirebase {
             scraper.obtenerOfertasSteam(cantidad);
             scraper.obtenerOfertasdeGog(cantidad);
         }else{
-            scraper.obtenerOfertasdeGog();
-            scraper.obtenerOfertasSteam();
+            scraper.obtenerOfertasdeGog(0);
+            scraper.obtenerOfertasSteam(0);
         }
         eliminarTabla("juegos_ofertas", 1);
         eliminarTabla("juegos_gratis", 1);
-        List<String> llaves = scraper.getJuegos_ofertados().keySet().stream().toList();
         if(scraper.getJuegos_ofertados().size() != 0){
             for (Map.Entry<String, Object> entry : scraper.getJuegos_ofertados().entrySet()) {
                 insertarDatos("Juegos_rebajados", entry.getKey(), (Map<String, Object>) scraper.getJuegos_ofertados().get(entry.getKey()));
