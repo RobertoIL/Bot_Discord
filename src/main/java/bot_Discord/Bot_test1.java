@@ -26,11 +26,11 @@ public class Bot_test1 {
         conexionAFirebase.conectar();
         conexionAFirebase.eliminarTabla("juegos_rebajados", 1);// Estos 2 eliminar tablas hacen que la firebase se reinicie cada que se conecta el bot
         conexionAFirebase.eliminarTabla("juegos_gratis", 1);
-        conexionAFirebase.generarJuegos(10);//Aqui se elige la cantidad de juegos de cada pagina que se buscan, si los quieres todos dejalo en 0
+        conexionAFirebase.generarJuegos(20);//Aqui se elige la cantidad de juegos de cada pagina que se buscan, si los quieres todos dejalo en 0
 
         //el token se genera desde la cuenta de discord donde esta el bot
 
-        final String token = "MTAzOTYzNDE5NzE2MzI4NjY0MA.GhiUfa.IrskiFjYaHii2MsSqsTy1zhsS9demN3uRKHtGc";
+        final String token = "MTAzOTYzNDE5NzE2MzI4NjY0MA.GOK6tM.c6xdKqoGFgx0MJCPzDHJO2Y0LgZ6B10hEoKfQM";
 
         JDA jda  =JDABuilder.createDefault(token)
                     .addEventListeners(new EventoReaccion())

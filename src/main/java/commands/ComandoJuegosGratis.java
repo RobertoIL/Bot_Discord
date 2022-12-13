@@ -30,9 +30,11 @@ public class ComandoJuegosGratis extends ListenerAdapter {
     //CRUDFirebase crudFirebase = new CRUDFirebase();
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
-        if (event.getName().equals("juegos-gratis")) {
+        if (event.getName().equals("juegos-gratis") && listaJuegos.size() != 0) {
             event.reply("JUEGOS GRATUITOS: "+
                     listaJuegos.toString()).queue();
+        }else{
+            event.reply("No hay ofertas");
         }
     }
 

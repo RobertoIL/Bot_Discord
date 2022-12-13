@@ -33,9 +33,11 @@ public class ComandoOfertas extends ListenerAdapter {
     }
     @Override
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
-        if (event.getName().equals("juegos-ofertas")) {
+        if (event.getName().equals("juegos-ofertas") && listaJuegos.size() != 0) {
             event.reply("Ofertas generadas: "+ "\n"+
                     listaJuegos.toString()).queue();
+        }else{
+            event.reply("No hay ofertas");
         }
     }
 
