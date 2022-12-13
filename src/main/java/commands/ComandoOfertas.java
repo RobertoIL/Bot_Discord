@@ -21,12 +21,12 @@ public class ComandoOfertas extends ListenerAdapter {
             this.listaJuegos = juegos;
         }else{
             for (int i = 0; i < 15; i++) {
-                List<Integer> asd = new ArrayList<>();
+                List<Integer> registroDeIndex = new ArrayList<>();
                 int val1 = 0;
                 do{
                     val1 = (int)(Math.random() * juegos.size());
-                }while(asd.contains(val1));
-                asd.add(val1);
+                }while(registroDeIndex.contains(val1));
+                registroDeIndex.add(val1);
                 this.listaJuegos.add(juegos.get(val1));
             }
         }
