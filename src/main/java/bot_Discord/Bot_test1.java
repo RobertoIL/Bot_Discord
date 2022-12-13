@@ -39,6 +39,9 @@ public class Bot_test1 {
 
 
         ConexionAFirebase conexionAFirebase = new ConexionAFirebase();
+        conexionAFirebase.conectar();
+        conexionAFirebase.generarJuegos(20);//Aqui elige la cantidad aproximada de juegos que quieres que salgan, si los quieres todos dejalo en 0
+
 
         //conexionAFirebase.getDocument("juegos-gratis", juegos_gratis);
 
@@ -47,8 +50,8 @@ public class Bot_test1 {
 
         JDA jda  =JDABuilder.createDefault(token)
                     .addEventListeners(new EventoReaccion())
-                    .addEventListeners(new ComandoJuegosGratis(ejemplo))
-                    .addEventListeners(new ComandoOfertas(ejemplo2))
+                    .addEventListeners(new ComandoJuegosGratis(conexionAFirebase.devolverJuegosGratis()))
+                    .addEventListeners(new ComandoOfertas(conexionAFirebase.devolverJuegosEnOferta()))
                     .build().awaitReady();
 
         jda.upsertCommand("juegos-gratis", "Mostrar juegos destacados gratuitos").queue();

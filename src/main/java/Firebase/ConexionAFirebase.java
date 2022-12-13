@@ -6,7 +6,10 @@ import com.google.cloud.firestore.*;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
+import com.google.firebase.database.FirebaseDatabase;
 import web_scraping.Conseguir_los_juegos_en_oferta;
+import web_scraping.Juegos_gratis;
+import web_scraping.Juegos_oferta;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -75,7 +78,60 @@ public class ConexionAFirebase {
             System.err.println("Error deleting collection : " + e.getMessage());
         }
     }
+    public List<Juegos_oferta> devolverJuegosEnOferta(){
+        List<Juegos_oferta> objetos = new ArrayList<>();
+        try {
+            ApiFuture<QuerySnapshot> future = bd.collection("juegos_oferta").get();
+// future.get() blocks on response
+            List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+            for (QueryDocumentSnapshot document : documents) {
+                objetos.add(document.toObject(Juegos_oferta.class));
+            }
+            return objetos;
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+    public List<Juegos_gratis> devolverJuegosGratis(){
+        List<Juegos_gratis> objetos = new ArrayList<>();
+        try {
+            ApiFuture<QuerySnapshot> future = bd.collection("juegos_gratis").get();
+// future.get() blocks on response
+            List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+            for (QueryDocumentSnapshot document : documents) {
+                objetos.add(document.toObject(Juegos_gratis.class));
+            }
+            return objetos;
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
     public void terminarConexion(){
         bd.shutdown();
+    }
+    public void generarJuegos(int cantidad){
+        scraper.limpiarOfertas();
+        if(cantidad != 0){
+            scraper.obtenerOfertasSteam(cantidad);
+            scraper.obtenerOfertasdeGog(cantidad);
+        }else{
+            scraper.obtenerOfertasdeGog();
+            scraper.obtenerOfertasSteam();
+        }
+        eliminarTabla("juegos_ofertas", 1);
+        eliminarTabla("juegos_gratis", 1);
+        List<String> llaves = scraper.getJuegos_ofertados().keySet().stream().toList();
+        if(scraper.getJuegos_ofertados().size() != 0){
+            for (Map.Entry<String, Object> entry : scraper.getJuegos_ofertados().entrySet()) {
+                insertarDatos("Juegos_rebajados", entry.getKey(), (Map<String, Object>) scraper.getJuegos_ofertados().get(entry.getKey()));
+            }
+        }
+        if(scraper.getJuegos_gratis().size() != 0){
+            for (Map.Entry<String, Object> entry:scraper.getJuegos_gratis().entrySet()){
+                insertarDatos("Juegos_gratis", entry.getKey(), (Map<String, Object>) scraper.getJuegos_gratis().get(entry.getKey()));
+            }
+        }
     }
 }

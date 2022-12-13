@@ -11,8 +11,20 @@ import java.util.*;
 
 public class ComandoJuegosGratis extends ListenerAdapter {
     List<Juegos_gratis> listaJuegos = new ArrayList<>();
-    public ComandoJuegosGratis(List<Juegos_gratis> llaves) {
-        this.listaJuegos=llaves.subList(0, 2);
+    public ComandoJuegosGratis(List<Juegos_gratis> juegos) {
+        if(juegos.size() <= 15){
+            this.listaJuegos = juegos;
+        }else{
+            for (int i = 0; i < 15; i++) {
+                List<Integer> asd = new ArrayList<>();
+                int val1 = 0;
+                do{
+                    val1 = (int)(Math.random() * juegos.size());
+                }while(asd.contains(val1));
+                asd.add(val1);
+                this.listaJuegos.add(juegos.get(val1));
+            }
+        }
     }
 
     //CRUDFirebase crudFirebase = new CRUDFirebase();
